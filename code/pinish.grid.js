@@ -4,6 +4,7 @@
     var that = $.extend({}, options);
     var $el = $(el);
     var tileWidth = $el.find('.tile').first().width() || 1;
+    var timer;
 
     //attachTo option helps to automatically bind window resize event
     if (!that.attachTo) {
@@ -44,9 +45,8 @@
         if (!columnTops[column]) {
           columnTops[column] = columnProperties.tileMargin;
         }
-        console.log(column);
-
-        $this.css({
+        
+        $this[!!that.animate ? 'animate' : 'css']({
           top: columnTops[column],
           left: ((tileWidth + columnProperties.tileMargin) * (column - 1)) + columnProperties.tileMargin
         });
@@ -55,13 +55,18 @@
       });
     }
 
-    //Event handlers
-    function handleAttachedToResize(ev) {
+    function update() {
       var columProperties = calculateColumnProperties();
       console.log(columProperties);
       $el.find('.tile').css('margin', columProperties.tileMargin);
       setColumnsToTiles(columProperties);
       setTilePositions(columProperties);
+    }
+
+    //Event handlers
+    function handleAttachedToResize(ev) {
+      timer && clearTimeout(timer);
+      timer = setTimeout(update, 500);
     }
 
     function bind() {
