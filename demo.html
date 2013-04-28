@@ -1,0 +1,73 @@
+<!doctype html>
+<style>
+  body {
+    background-color: #000;
+  }
+  #my-pinish-grid{
+    overflow: visible;
+    background-color: #fff;
+    position: relative;
+  }
+  #my-pinish-grid .tile{
+    display: inline-block;
+    width: 238px;
+    margin: 7px 0;
+    margin-left: 7px;
+    float: left;
+    position: absolute;
+  }
+  #my-pinish-grid .tile img{ 
+    width: 238px;
+  }
+</style>
+
+<div id="my-pinish-grid">
+  <div class="tile">
+    <img src="http://lorempixel.com/250/200/"/>
+  </div>
+  <div class="tile">
+    <img src="http://lorempixel.com/250/200/"/>
+  </div>
+  <div class="tile">
+    <img src="http://lorempixel.com/250/200/"/>
+  </div>
+  <div class="tile">
+    <img src="http://lorempixel.com/250/200/"/>
+  </div>
+  <div class="tile">
+    <img src="http://lorempixel.com/250/200/"/>
+  </div>
+  <div class="tile">
+    <img src="http://lorempixel.com/250/200/"/>
+  </div>
+</div>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="code/pinish.grid.js"></script>
+<script type="text/javascript">
+  $(function () {
+
+  function buildTile(c) {
+    var height = parseInt(Math.random() * 250) + 50;
+    
+    var imgUrl = 'http://lorempixel.com/238/' + height + '/?n=' + c;
+    var $tile = $('<div class="tile"/>');
+    var $img = $('<img src="' + imgUrl + '"/>');
+    $tile.append($img);
+    return $tile;
+  }
+  
+  $('#my-pinish-grid').empty();
+  for (var i = 0; i < 50; i += 1) {
+    $('#my-pinish-grid').append(buildTile(i));
+  }
+  
+
+  $('#my-pinish-grid').pinishGrid({
+    attachTo: window
+  });
+  
+  var pinishGrid = $('#my-pinish-grid').data();
+  console.log(pinishGrid);
+  });
+</script>
