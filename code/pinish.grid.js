@@ -66,9 +66,9 @@
 
     function update() {
       var columProperties = calculateColumnProperties();
-      console.log(columProperties);
+      
       $el.find('.tile').css('margin', columProperties.tileMargin);
-      //setColumnsToTiles(columProperties);
+      
       setTilePositions(columProperties);
     }
 
