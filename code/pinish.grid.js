@@ -20,46 +20,55 @@
 
       columProperties.alowedColumns = alowedColumns;
       columProperties.tileMargin = tileMargin;
+      columProperties.columnTopValues = {};
+
+      for(var i = 1; i <= alowedColumns; i += 1) {
+        columProperties.columnTopValues[i] = tileMargin;
+      }
 
       return columProperties;
     }
 
-    function setColumnsToTiles(columnProperties) {
-      var column = 1;
-      $el.find('.tile').each(function () {
-        $(this).attr('data-column', column);
-
-        column += 1;
-        if (column > columnProperties.alowedColumns) {
-          column = 1;
+    function getSmallestColumn(columnTopValues) {
+      var minValue = columnTopValues[1];
+      var minIndex = 1;
+      for (var i in columnTopValues) {
+        if (columnTopValues[i] < minValue) {
+          minValue = columnTopValues[i];
+          minIndex = i;
         }
-      });
+      }
+      
+      return minIndex;
     }
 
     function setTilePositions(columnProperties) {
-      var columnTops = {};
+      var columnTopValues = columnProperties.columnTopValues;
+
       $el.find('.tile').each(function () {
-        var $this = $(this);
-        var column = $this.attr('data-column');
-        var height = $this.outerHeight();
-        if (!columnTops[column]) {
-          columnTops[column] = columnProperties.tileMargin;
-        }
+        var $tile = $(this);
+        var height = $tile.outerHeight();
+        var column = getSmallestColumn(columnTopValues);
         
-        $this[!!that.animate ? 'animate' : 'css']({
-          top: columnTops[column],
+        $tile.attr('data-column', column);
+
+        $tile[!!that.animate ? 'animate' : 'css']({
+          top: columnTopValues[column],
           left: ((tileWidth + columnProperties.tileMargin) * (column - 1)) + columnProperties.tileMargin
         });
 
-        columnTops[column] += height + columnProperties.tileMargin;
+        columnTopValues[column] += height + columnProperties.tileMargin;
+        
       });
     }
+
+    //public functions
 
     function update() {
       var columProperties = calculateColumnProperties();
       console.log(columProperties);
       $el.find('.tile').css('margin', columProperties.tileMargin);
-      setColumnsToTiles(columProperties);
+      //setColumnsToTiles(columProperties);
       setTilePositions(columProperties);
     }
 
@@ -69,11 +78,19 @@
       timer = setTimeout(update, 500);
     }
 
+    //initialization
     function bind() {
       $(that.attachTo).on('resize', handleAttachedToResize);
+      $(that.attachTo).on('load', function () {
+        $el.fadeIn();
+        update();
+      });
     }
-    
+    $el.hide();// may be a loading stuff?
     bind();
+    
+    //publishing methods
+    that.update = update;
 
     return that;
   }
@@ -83,11 +100,8 @@
       var $this = $(this);
       
       var plugin = createPinishGrid(this, options);
-
       
       $this.data('pinishGrid', plugin);
-
-      //return this;
     });
   };
   
