@@ -40,14 +40,17 @@
       var columProperties = {};
       var alowedColumns = Math.floor($el.width() / tileWidth);
       var remainingMargin = $el.width() % tileWidth;
-      var tileMargin = Math.floor(remainingMargin / (alowedColumns * 2));
+      var tileMargin = Math.floor(remainingMargin / ((alowedColumns - 1) * 2));
+      console.log(alowedColumns);
+      console.log(remainingMargin);
+      console.log(tileMargin);
 
       columProperties.alowedColumns = alowedColumns;
       columProperties.tileMargin = tileMargin;
       columProperties.columnTopValues = {};
 
       for(var i = 1; i <= alowedColumns; i += 1) {
-        columProperties.columnTopValues[i] = tileMargin;
+        columProperties.columnTopValues[i] = 7;//tileMargin;
       }
 
       return columProperties;
@@ -76,12 +79,13 @@
         
         $tile.attr('data-column', column);
 
+        
         $tile[!!that.animate ? 'animate' : 'css']({
           top: columnTopValues[column],
-          left: ((tileWidth + columnProperties.tileMargin) * (column - 1)) + columnProperties.tileMargin
+          left: ((tileWidth + (columnProperties.tileMargin * 2)) * (column - 1))
         });
 
-        columnTopValues[column] += height + columnProperties.tileMargin;
+        columnTopValues[column] += height + 7;//columnProperties.tileMargin;
         
       });
     }
@@ -90,8 +94,6 @@
 
     function update() {
       var columProperties = calculateColumnProperties();
-      
-      $el.find('.tile').css('margin', columProperties.tileMargin);
       
       setTilePositions(columProperties);
     }
