@@ -27,7 +27,7 @@
   function createPinishGrid(el, options) {
     var that = $.extend({}, options);
     var $el = $(el);
-    var tileWidth = $el.find('.tile').first().width() || 1;
+    var tileWidth = $el.find('.tile').first().outerWidth() || 1;
     var timer;
 
     //attachTo option helps to automatically bind window resize event
