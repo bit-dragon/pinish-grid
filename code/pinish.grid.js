@@ -41,7 +41,8 @@
       var alowedColumns = Math.floor($el.width() / tileWidth);
       var remainingMargin = $el.width() % tileWidth;
       var tileMargin = Math.floor(remainingMargin / ((alowedColumns - 1) * 2));
-      console.log(alowedColumns);
+      console.log('allowedColumns', alowedColumns);
+      console.log('tileWidth', tileWidth);
       console.log(remainingMargin);
       console.log(tileMargin);
 
@@ -84,13 +85,34 @@
           top: columnTopValues[column],
           left: ((tileWidth + (columnProperties.tileMargin * 2)) * (column - 1))
         });
-
+        
         columnTopValues[column] += height + 7;//columnProperties.tileMargin;
         
       });
     }
 
-    //public functions
+    function buildTile(tileJson) {
+      var $tile = $('<div class="tile"/>'),
+          $img = $('<img/>'),
+          $loadingMask = $('<div class="loading-mask"/>');
+      $img.attr('height', tileJson.height).
+        attr('width', tileJson.width).
+        attr('src', tileJson.imageURL);
+      $img.on('load', handleImageLoaded);
+      $tile.append($img)
+        .append($loadingMask)
+        .addClass('loading');
+      return $tile;
+    }
+
+    function attachJsonTiles(jsonTiles) {
+      for (var i = 0, len = jsonTiles.length; i < len; i += 1) {
+        $el.append(buildTile(jsonTiles[i]));
+      }
+      tileWidth = $el.find('.tile').first().outerWidth() || 1;      
+    }
+
+    //public function
 
     function update() {
       var columProperties = calculateColumnProperties();
@@ -103,17 +125,22 @@
       timer && clearTimeout(timer);
       timer = setTimeout(update, 500);
     }
+    function handleImageLoaded(ev) {
+      var $this = $(this),
+          $tile = $this.parents('.tile');
+      $tile.removeClass('loading');
+      $tile.find('.loading-mask').fadeOut(500);
+    }
 
     //initialization
     function bind() {
       $(that.attachTo).on('resize', handleAttachedToResize);
-      $(that.attachTo).on('load', function () {
-        $el.fadeIn();
-        update();
-      });
     }
-    $el.hide();// may be a loading stuff?
+    //$el.hide();// may be a loading stuff?
+    attachJsonTiles(that.jsonTiles);
+    //update();
     bind();
+    update();
     
     //publishing methods
     that.update = update;
