@@ -91,17 +91,35 @@
       });
     }
 
+    function buildDomElement(nodeName, attributes) {
+      var $node = $('<' + nodeName + '/>'),
+          i;
+      attributes = attributes || {};
+      for (i in attributes) {
+        if (attributes.hasOwnProperty(i)) {
+          $node.attr(i, attributes[i]);
+          console.log(i, attributes[i]);
+        }
+      }
+      return $node;
+    }
+
     function buildTile(tileJson) {
-      var $tile = $('<div class="tile"/>'),
-          $img = $('<img/>'),
-          $loadingMask = $('<div class="loading-mask"/>');
-      $img.attr('height', tileJson.height).
-        attr('width', tileJson.width).
-        attr('src', tileJson.imageURL);
+      var $tile = buildDomElement('div', 
+                                  {
+                                    'class': 'tile loading'
+                                  }),
+      $loadingMask = buildDomElement('div', {
+                                     'class': 'loading-mask'}),
+      $img = buildDomElement('img', {
+                               'height': tileJson.height,
+                               'width': tileJson.width,
+                               'src': tileJson.imageURL
+                             });
+       
       $img.on('load', handleImageLoaded);
       $tile.append($img)
-        .append($loadingMask)
-        .addClass('loading');
+        .append($loadingMask);
       return $tile;
     }
 

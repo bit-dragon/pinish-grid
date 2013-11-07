@@ -1,55 +1,7 @@
 <!doctype html>
-<style>
-  #my-pinish-grid{
-    overflow: visible;
-    position: relative;
-  
-  }
-  #my-pinish-grid .tile{
-    display: inline-block;
-    width: 238px;
-    /*margin: 7px 0;
-    margin-left: 7px;*/
-    float: left;
-    position: absolute;
-  }
-  #my-pinish-grid .tile img{ 
-    width: 238px;
-  }
+<link rel="stylesheet" href="code/pinish.grid.css" type="text/css" media="screen" />
 
-  .loading-mask {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: #fff; 
-    background-image: url('./ajax-loader.gif');
-    background-position: center center;
-    background-repeat: no-repeat;
-    border: 1px solid #999;
-  }
-</style>
-
-<div id="my-pinish-grid">
-  <div class="tile">
-    <img src="http://lorempixel.com/250/200/"/>
-  </div>
-  <div class="tile">
-    <img src="http://lorempixel.com/250/200/"/>
-  </div>
-  <div class="tile">
-    <img src="http://lorempixel.com/250/200/"/>
-  </div>
-  <div class="tile">
-    <img src="http://lorempixel.com/250/200/"/>
-  </div>
-  <div class="tile">
-    <img src="http://lorempixel.com/250/200/"/>
-  </div>
-  <div class="tile">
-    <img src="http://lorempixel.com/250/200/"/>
-  </div>
+<div class="pinish-grid">  
 </div>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
@@ -72,31 +24,19 @@
       imageURL: imgUrl
     };
   }
-
-  function buildTile(c) {
-    var height = parseInt(Math.random() * 250) + 50;
-    
-    var imgUrl = 'http://lorempixel.coma/238/' + height + '/?n=' + c;
-    var $tile = $('<div class="tile"/>');
-    var $img = $('<img src="' + imgUrl + '"/>');
-    $tile.append($img);
-    return $tile;
-  }
   
-  $('#my-pinish-grid').empty();
   for (var i = 0; i < 50; i += 1) {
-    //$('#my-pinish-grid').append(buildTile(i));
     pinsJson.push(buildPinMock());
   }
   
 
-  $('#my-pinish-grid').pinishGrid({
+  $('.pinish-grid').pinishGrid({
     attachTo: window,
     animate: true,
     jsonTiles: pinsJson
   });
   
-  var pinishGrid = $('#my-pinish-grid').data();
+  var pinishGrid = $('.pinish-grid').data();
   console.log(pinishGrid);
   console.log('pins:', pinsJson);
   });
