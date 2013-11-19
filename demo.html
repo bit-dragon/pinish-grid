@@ -7,12 +7,13 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
 <script type="text/javascript" src="code/pinish.grid.js"></script>
 <script type="text/javascript">
-  $(function () {
+ $(function () {
 
-  var pinsJson = [];
+   var pinsJson = [];
+   var lorem = '<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h3> Nullam at ornare tortor. Donec fermentum sapien ut pharetra cursus. Integer ac sem vel risus laoreet suscipit sit amet a justo.';
 
   function buildPinMock() {
-    var height = parseInt(Math.random() * 250) + 50;
+    var height = parseInt(Math.random() * 250) + 100;
     var width = 238;
     var c = parseInt(Math.random() * 5000);
     
@@ -21,7 +22,8 @@
     return {
       width: width,
       height: height,
-      imageURL: imgUrl
+      imageURL: imgUrl,
+      content: lorem
     };
   }
   

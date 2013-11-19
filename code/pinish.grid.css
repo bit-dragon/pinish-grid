@@ -5,6 +5,7 @@
 }
 .pinish-grid .tile{
   position: absolute;
+  overflow: hidden;
 }
 
 .pinish-grid .loading-mask {
@@ -18,4 +19,40 @@
   background-position: center center;
   background-repeat: no-repeat;
   border: 1px solid #999;
+}
+
+.tile .media .content {
+  margin: 0;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  height: 80px;
+  background-color: #FFF;
+  opacity: 0.7;
+  overflow: auto;
+  display: none;
+  padding: 10px;
+  transition:opacity 2s;
+}
+
+.tile:hover .media .content {
+  display: block;
+}
+
+
+/*
+  This Style is not related to the plugin
+*/
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 100%;
+}
+
+.tile .media .content {
+  font-size: .8em;
+}
+
+.tile .media .content h3 {
+  margin: 0 0 0.5em;
+  font-size: 1em;
 }

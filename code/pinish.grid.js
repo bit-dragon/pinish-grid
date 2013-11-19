@@ -24,6 +24,14 @@
 
 (function ($) {
 
+  var tileHTML = "<div class='tile loading'>\n"
+                 + "<article class='media'>\n"
+                 + "<img />"
+                 + "<p class='content'/>"
+                 + "</article>\n" //Article
+                 + "<div class='loading-mask'/>\n"
+                 + "</div>\n";//Tile
+
   function createPinishGrid(el, options) {
     var that = $.extend({}, options);
     var $el = $(el);
@@ -95,31 +103,36 @@
       var $node = $('<' + nodeName + '/>'),
           i;
       attributes = attributes || {};
+
       for (i in attributes) {
         if (attributes.hasOwnProperty(i)) {
           $node.attr(i, attributes[i]);
-          console.log(i, attributes[i]);
         }
       }
+
       return $node;
     }
 
     function buildTile(tileJson) {
-      var $tile = buildDomElement('div', 
-                                  {
-                                    'class': 'tile loading'
-                                  }),
-      $loadingMask = buildDomElement('div', {
-                                     'class': 'loading-mask'}),
-      $img = buildDomElement('img', {
-                               'height': tileJson.height,
-                               'width': tileJson.width,
-                               'src': tileJson.imageURL
-                             });
+      var $tile = $(tileHTML),
+      $img = $tile.find('img'),
+      $content = $tile.find('p');
+
+      $tile.css(
+        {
+          width: tileJson.width,
+          height: tileJson.height
+        }
+      );
+
+      $img.attr('height', tileJson.height)
+      .attr('width', tileJson.width).
+        attr('src', tileJson.imageURL);
+
+      $content.html(tileJson.content);
        
       $img.on('load', handleImageLoaded);
-      $tile.append($img)
-        .append($loadingMask);
+
       return $tile;
     }
 
