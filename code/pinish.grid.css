@@ -14,11 +14,18 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-color: #fff; 
-  background-image: url('./ajax-loader.gif');
   background-position: center center;
   background-repeat: no-repeat;
-  border: 1px solid #999;
+}
+
+.pinish-grid.white .loading-mask {
+  background-color: #fff; 
+  background-image: url('img/ajax-loader-white.gif');
+}
+
+.pinish-grid.black .loading-mask {
+  background-color: #000; 
+  background-image: url('img/ajax-loader-black.gif');
 }
 
 .tile .media .content {
@@ -27,7 +34,6 @@
   bottom: 0px;
   left: 0px;
   height: 80px;
-  background-color: #FFF;
   opacity: 0.7;
   overflow: auto;
   display: none;
@@ -35,8 +41,21 @@
   transition:opacity 2s;
 }
 
+.white .tile .media .content {
+  background-color: #FFF;
+  color: #000;
+}
+.black .tile .media .content {
+  background-color: #000;
+  color: #FFF;
+}
+
 .tile:hover .media .content {
   display: block;
+}
+
+.tile .media>img {
+  border: none;
 }
 
 
